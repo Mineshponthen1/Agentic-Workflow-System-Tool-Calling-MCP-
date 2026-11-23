@@ -101,3 +101,22 @@ def test_mistakes_are_scored_as_the_right_failure():
     assert res["kyc-status"]["completed"] and res["kyc-status"]["tool_precision"] == 0.5
     assert res["kyc-status"]["step_efficiency"] == 0.5
     assert res["ticket-status"]["failure"] == "wrong_or_incomplete_answer"
+
+
+def test_a_crashing_scenario_is_recorded_and_the_exam_continues():
+    by_id = {s["id"]: s for s in load_scenarios()}
+
+    class Broken:
+        async def chat(self, messages, tools):
+            raise RuntimeError("an error was encountered while running the model: unexpected EOF")
+
+    config = copy.deepcopy(load_config())
+    saved = []
+    scripts = {"kyc-status": REFERENCE["kyc-status"]}
+    make = lambda scn: Broken() if scn["id"] == "balance-lookup" else ScriptedLLM(copy.deepcopy(scripts[scn["id"]]))  # noqa: E731
+    report = asyncio.run(evaluate([by_id["balance-lookup"], by_id["kyc-status"]], make, config, load_prompt(),
+                                  progress=lambda _: None, on_result=saved.append))
+    res = {r["id"]: r for r in report["results"]}
+    assert res["balance-lookup"]["failure"] == "error" and "unexpected EOF" in res["balance-lookup"]["error"]
+    assert res["kyc-status"]["completed"]
+    assert len(saved) == 2  # progress saved after each scenario
