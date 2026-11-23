@@ -125,6 +125,8 @@ python eval/run_eval.py
 pytest -v
 ```
 
+**Or run it in the browser with GitHub Codespaces** (nothing installed on your own computer): on the repo page, click **Code → Codespaces → Create codespace on main**. The first start installs everything and downloads llama3.2 (about 10 minutes). Then run `python eval/run_eval.py` or `python server.py` in the terminal. Stop and delete the codespace when you're done, to stay within GitHub's free monthly allowance.
+
 For panel development with hot reload, run `python server.py` and, in another terminal, `cd panel && npm run dev` (port 5173, API calls are proxied).
 
 **Optional tracing:** set `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY` and `LANGFUSE_HOST` (for example a self-hosted Langfuse at `http://localhost:3000`). Each task appears as one trace, even across approval pauses, with a generation per model decision, a tool observation per call, and guardrail blocks marked as warnings.
