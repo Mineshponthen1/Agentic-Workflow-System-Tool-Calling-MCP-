@@ -1,0 +1,18 @@
+# Agent settings. Change these here, not in code.
+model: llama3.2            # any Ollama model with tool calling
+temperature: 0             # deterministic: see the variance study in slm-benchmark-lab
+
+budgets:
+  max_steps: 8             # tool calls per task
+  max_llm_calls: 12        # model calls per task
+  max_cost_usd: 0.0005     # hosted-API-equivalent cost per task (see pricing)
+  max_guard_failures: 3    # wrong tool, repeated call or bad arguments, before the agent is stopped
+
+tool_timeout_seconds: 3.0
+
+# The model runs locally, so its real cost is $0. These are a published hosted price
+# for Llama 3.2 3B Instruct, so the cost budget measures what the same task would cost
+# on a hosted API (same approach as the secure-bank-rag-assistant project).
+pricing:
+  usd_per_million_input_tokens: 0.01
+  usd_per_million_output_tokens: 0.02

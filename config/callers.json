@@ -1,0 +1,34 @@
+{
+  "callers": [
+    {
+      "name": "ops analyst (read-only)",
+      "token_sha256": "caf047e485f158fccdb7ccea5d0224fe3b3af4d23ea0556dd538cdd0bef18ba3",
+      "role": "ops_analyst",
+      "allowed_tools": [
+        "database_query",
+        "document_search",
+        "calendar_lookup",
+        "status_lookup",
+        "threshold_check",
+        "audit_log_lookup",
+        "crm_get_customer"
+      ]
+    },
+    {
+      "name": "compliance lead",
+      "token_sha256": "20d330c180c75f540070a720d3edb2a5eb00a18dbcbd15618ca9fb73cb4726f8",
+      "role": "compliance_lead",
+      "allowed_tools": [
+        "database_query",
+        "document_search",
+        "calendar_lookup",
+        "status_lookup",
+        "threshold_check",
+        "audit_log_lookup",
+        "crm_get_customer",
+        "email_draft",
+        "ticket_creation"
+      ]
+    }
+  ]
+}
